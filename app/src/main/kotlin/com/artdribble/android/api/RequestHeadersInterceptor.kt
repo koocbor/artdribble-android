@@ -20,7 +20,7 @@ class RequestHeadersInterceptor(
         val newRequestBuilder = originalRequest.newBuilder();
 
         val credentials = Credentials.basic(clientId, clientSecret);
-        newRequestBuilder.addHeader("Authentication", credentials);
+        newRequestBuilder.addHeader("Authorization", credentials);
 
         return chain.proceed(newRequestBuilder.build());
     }
