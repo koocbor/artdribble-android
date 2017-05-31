@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FCFCFC</color>
-    <color name="colorPrimaryDark">#F0F0F0</color>
+    <color name="colorPrimaryDark">#C4C4C4</color>
     <color name="colorAccent">#6B4226</color>
 
     <color name="colorBackground">#FAFAFA</color>
+    <color name="colorNavBar">#C4C4C4</color>
+    <color name="colorToolbarBg">#80C4C4C4</color>
 </resources>

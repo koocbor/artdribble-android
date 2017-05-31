@@ -42,7 +42,8 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        //androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
@@ -77,6 +78,8 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+
+    compile 'jp.wasabeef:blurry:2.1.1'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'  // Necessary for Dagger to compile.

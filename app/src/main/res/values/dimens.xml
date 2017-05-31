@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="padding_default">16dp</dimen>
+
+    <dimen name="font_toolbar_title">18sp</dimen>
+    <dimen name="font_toolbar_large">19sp</dimen>
+
+</resources>

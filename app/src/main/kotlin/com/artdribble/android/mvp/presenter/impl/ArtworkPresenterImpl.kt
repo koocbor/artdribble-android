@@ -1,6 +1,7 @@
 package com.artdribble.android.mvp.presenter.impl
 
 import com.artdribble.android.api.DribbleApi
+import com.artdribble.android.models.ArtsyArtwork
 import com.artdribble.android.models.Dribble
 import com.artdribble.android.mvp.presenter.ArtworkPresenter
 import com.artdribble.android.mvp.view.ArtworkView
@@ -38,9 +39,7 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
                 if (response != null && response.isSuccessful()) {
                     dribble = response.body()
-                    if (weakView?.get()  != null && dribble?.artsyArtworkInfo != null) {
-                        weakView?.get()?.displayImage(dribble?.artsyArtworkInfo?.getImgUrlLargestAvailable())
-                    }
+                    displayArtwork()
                 }
             }
 
@@ -52,6 +51,15 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
     override fun setView(view: ArtworkView) {
         weakView = WeakReference(view)
+    }
+
+    private fun displayArtwork() {
+        if (weakView?.get() == null || dribble?.artsyArtworkInfo == null) {
+            return;
+        }
+
+        weakView?.get()?.displayArtworkInfo(dribble?.artsyArtworkInfo as ArtsyArtwork)
+        weakView?.get()?.displayImage(dribble?.artsyArtworkInfo?.getImgUrlLargestAvailable())
     }
 
 }
