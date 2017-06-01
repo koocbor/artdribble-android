@@ -1,5 +1,6 @@
 package com.artdribble.android.mvp.presenter.impl
 
+import com.artdribble.android.Datastore
 import com.artdribble.android.api.DribbleApi
 import com.artdribble.android.models.ArtsyArtwork
 import com.artdribble.android.models.Dribble
@@ -21,24 +22,36 @@ class ArtworkPresenterImpl : ArtworkPresenter {
     val DATE_KEY_FORMAT = "yyyyMMdd"
 
     val simpleDateFormat: SimpleDateFormat = SimpleDateFormat(DATE_KEY_FORMAT, Locale.US)
+    val datastore: Datastore
     val dribbleApi: DribbleApi
     var dribble: Dribble? = null
     var weakView: WeakReference<ArtworkView>? = null
 
     @Inject
-    constructor(dribbleApi: DribbleApi) {
+    constructor(dribbleApi: DribbleApi, datastore: Datastore) {
         this.dribbleApi = dribbleApi
+        this.datastore = datastore
     }
 
     override fun loadDailyArtwork() {
         var now: Date = Date()
         var key: String = simpleDateFormat.format(now)
+
+        var localDribble: Dribble? = datastore.getDribble()
+
+        if (localDribble != null && localDribble.dribbledate.equals(key)) {
+            dribble = localDribble
+            displayArtwork()
+            return
+        }
+
         dribbleApi.getArtwork(key).enqueue(object : Callback<Dribble> {
 
             override fun onResponse(call: Call<Dribble>?, response: Response<Dribble>?) {
 
                 if (response != null && response.isSuccessful()) {
                     dribble = response.body()
+                    datastore.setDribble(dribble)
                     displayArtwork()
                 }
             }

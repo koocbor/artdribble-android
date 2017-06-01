@@ -1,6 +1,7 @@
 package com.artdribble.android.dagger
 
 import com.artdribble.android.dagger.module.ApiModule
+import com.artdribble.android.dagger.module.DatastoreModule
 import com.artdribble.android.dagger.module.GsonModule
 import com.artdribble.android.dagger.module.PresenterModule
 import dagger.Component
@@ -12,6 +13,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(
         ApiModule::class,
+        DatastoreModule::class,
         GsonModule::class,
         PresenterModule::class
 ))

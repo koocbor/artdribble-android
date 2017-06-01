@@ -4,6 +4,7 @@ import android.app.Application
 import com.artdribble.android.dagger.AppComponent
 import com.artdribble.android.dagger.DaggerAppComponent
 import com.artdribble.android.dagger.module.ApiModule
+import com.artdribble.android.dagger.module.DatastoreModule
 import com.artdribble.android.dagger.module.GsonModule
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class ArtDribbleApp : Application () {
     private fun initAppComponent() {
         appComponent = DaggerAppComponent.builder()
                 .apiModule(ApiModule())
+                .datastoreModule(DatastoreModule(this))
                 .gsonModule(GsonModule())
                 .build()
 

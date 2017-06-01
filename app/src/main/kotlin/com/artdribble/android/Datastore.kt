@@ -1,6 +1,8 @@
 package com.artdribble.android
 
 import android.content.SharedPreferences
+import android.text.TextUtils
+import com.artdribble.android.models.Dribble
 import com.google.gson.Gson
 
 /**
@@ -15,5 +17,21 @@ class Datastore(val sharedPrefs: SharedPreferences,
 
     private fun getPrefs() : SharedPreferences = sharedPrefs
 
+    fun getDribble(): Dribble? {
+        var dribbleJson: String = getPrefs().getString(DAILY_DRIBBLE, "")
+        if (TextUtils.isEmpty(dribbleJson)) {
+            return null
+        }
 
+        return gson.fromJson(dribbleJson, Dribble::class.java)
+    }
+
+    fun setDribble(dribble: Dribble?) {
+        if (dribble == null) {
+            getEditor().remove(DAILY_DRIBBLE).apply()
+            return
+        }
+
+        getEditor().putString(DAILY_DRIBBLE, gson.toJson(dribble)).apply()
+    }
 }
