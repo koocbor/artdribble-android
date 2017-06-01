@@ -2,8 +2,20 @@
 
     <style name="ArtDribble_Dialog_Fullscreen" parent="Theme.ArtDribble.Base"/>
 
-    <style name="Upside_Dialog_Fullscreen_SlideUp" parent="ArtDribble_Dialog_Fullscreen">
+    <style name="ArtDribble_Dialog_Fullscreen_SlideUp" parent="ArtDribble_Dialog_Fullscreen">
         <item name="android:windowAnimationStyle">@style/DialogSlideUpAnim</item>
+    </style>
+
+    <style name="ArtDribble_Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:actionBarWidgetTheme">@style/ArtDribble_ActionBarWidget</item>
+
+    </style>
+
+    <style name="ArtDribble_ActionBarWidget" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
     <style name="DialogSlideUpAnim">

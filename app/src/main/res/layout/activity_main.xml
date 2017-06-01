@@ -34,7 +34,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorToolbarBg">
+                android:background="@color/colorToolbarBg"
+                app:theme="@style/ArtDribble_Toolbar"
+                app:popupTheme="@style/ArtDribble_ActionBarWidget">
 
                 <TextView
                     android:id="@+id/toolbar_title"
@@ -62,10 +64,22 @@
                         android:id="@+id/artist_names_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_default"
+                        android:layout_marginBottom="@dimen/padding_three_halves"
                         android:orientation="vertical">
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/artwork_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_one_half"/>
+
+                    <TextView
+                        android:id="@+id/artwork_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_three_halves"/>
 
                     <TextView
                         android:id="@+id/collecting_institution"

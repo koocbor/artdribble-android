@@ -3,4 +3,7 @@
     <string name="accessibility_overflow">Overflow Menu</string>
 
     <string name="app_name">Art Dribble</string>
+
+    <string name="menu_about">About</string>
+    <string name="menu_settings">Settings</string>
 </resources>

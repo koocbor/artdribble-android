@@ -10,6 +10,7 @@ import android.os.Message
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.GestureDetector
+import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
@@ -75,6 +76,13 @@ class MainActivity : BaseActivity(),
         super.onPostCreate(savedInstanceState)
 
         delayedHide(INITIAL_HIDE_DELAY)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_main_activity, menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onResume() {
@@ -208,6 +216,8 @@ class MainActivity : BaseActivity(),
 
     override fun displayArtworkInfo(info: ArtsyArtwork) {
         toolbar_title.text = info.title
+        artwork_date.text = info.date
+        artwork_medium.text = info.medium
         collecting_institution.text = info.collecting_institution
     }
 
