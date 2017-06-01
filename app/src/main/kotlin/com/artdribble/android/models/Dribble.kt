@@ -5,6 +5,7 @@ package com.artdribble.android.models
  */
 data class Dribble(
         val dribbledate: String,
+        val artsyArtistInfo: ArtsyArtistInfo?,
         val artsyArtworkSlug : String?,
         val artsyArtworkInfo: ArtsyArtwork
 )

@@ -1,7 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 apply from: "$rootDir/utils.gradle"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
 
 def Properties secureStrings = new Properties()
 def secureStringsFile = file('securestrings.properties')
@@ -82,7 +92,11 @@ dependencies {
     compile 'jp.wasabeef:blurry:2.1.1'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'com.github.javafaker:javafaker:0.13'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'  // Necessary for Dagger to compile.
+    testCompile 'org.mockito:mockito-core:2.7.21'
+    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "org.robolectric:shadows-support-v4:3.3.2"
 
 }
 repositories {

@@ -60,6 +60,7 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
         weakView?.get()?.displayArtworkInfo(dribble?.artsyArtworkInfo as ArtsyArtwork)
         weakView?.get()?.displayImage(dribble?.artsyArtworkInfo?.getImgUrlLargestAvailable())
+        weakView?.get()?.displayArtistInfo(dribble?.artsyArtistInfo?.embedded?.artists)
     }
 
 }

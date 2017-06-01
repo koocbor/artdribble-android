@@ -58,11 +58,19 @@
                     android:layout_margin="@dimen/padding_default"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:id="@+id/artist_names_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_default"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/collecting_institution"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/font_toolbar_large"
                         tools:text="National Gallery of Art, Washington D.C."/>
 
 

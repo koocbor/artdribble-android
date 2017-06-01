@@ -1,5 +1,6 @@
 package com.artdribble.android.mvp.view
 
+import com.artdribble.android.models.ArtsyArtist
 import com.artdribble.android.models.ArtsyArtwork
 
 /**
@@ -7,6 +8,7 @@ import com.artdribble.android.models.ArtsyArtwork
  */
 interface ArtworkView : BaseView {
 
+    fun displayArtistInfo(info: List<ArtsyArtist>?)
     fun displayArtworkInfo(info: ArtsyArtwork)
     fun displayImage(url: String?)
 

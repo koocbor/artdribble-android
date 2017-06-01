@@ -7,4 +7,5 @@
     <color name="colorBackground">#FAFAFA</color>
     <color name="colorNavBar">#C4C4C4</color>
     <color name="colorToolbarBg">#80C4C4C4</color>
+    <color name="colorTextDark">#343434</color>
 </resources>

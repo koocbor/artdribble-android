@@ -16,35 +16,34 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.artdribble.android.ArtDribbleApp
 
 import com.artdribble.android.R
+import com.artdribble.android.models.ArtsyArtist
+import com.artdribble.android.models.ArtsyArtistInfo
 import com.artdribble.android.models.ArtsyArtwork
 import com.artdribble.android.mvp.presenter.ArtworkPresenter
 import com.artdribble.android.mvp.view.ArtworkView
 import com.artdribble.android.utils.loadUrl
+import com.artdribble.android.widget.ArtistInfoView
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import jp.wasabeef.blurry.Blurry
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : BaseActivity(),
         ArtworkView {
 
     val INITIAL_HIDE_DELAY = 1000L
 
-    lateinit var mainContent: FrameLayout
-    lateinit var artImage: ImageView
-    lateinit var artImageBlurry: ImageView
     lateinit var decoreView: View
-    lateinit var toolbar: Toolbar
-    lateinit var toolbarTitle: TextView
-
-    lateinit var artInfoContainer: FrameLayout
-    lateinit var collectingInstView: TextView
 
     var blurred: Boolean = false
 
@@ -93,6 +92,12 @@ class MainActivity : BaseActivity(),
         }
     }
 
+    private fun bindArtistInfo(info: ArtsyArtistInfo?) {
+        if (info?.embedded?.artists == null || info.embedded.artists.isEmpty()) {
+            return;
+        }
+    }
+
     private fun delayedHide(delayMillis: Long) {
         hideSystemUiHandler.removeMessages(0)
         hideSystemUiHandler.sendEmptyMessageDelayed(0, delayMillis)
@@ -114,7 +119,7 @@ class MainActivity : BaseActivity(),
             val fadeOut: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_out)
             fadeOut.setAnimationListener(object: Animation.AnimationListener {
                 override fun onAnimationEnd(animation: Animation?) {
-                    artInfoContainer.visibility = View.GONE
+                    art_info_container.visibility = View.GONE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {
@@ -125,7 +130,7 @@ class MainActivity : BaseActivity(),
 
                 }
             })
-            artInfoContainer.startAnimation(fadeOut)
+            art_info_container.startAnimation(fadeOut)
         }
     }
 
@@ -154,32 +159,22 @@ class MainActivity : BaseActivity(),
     }
 
     private fun initViews() {
-        mainContent = findViewById(R.id.main_content) as FrameLayout
 
-        artInfoContainer = findViewById(R.id.art_info_container) as FrameLayout
-        artInfoContainer.setClickable(true)
-        artInfoContainer.setOnTouchListener(object: View.OnTouchListener {
+        art_info_container.setClickable(true)
+        art_info_container.setOnTouchListener(object: View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 return clickDetector.onTouchEvent(event)
             }
         })
 
-        artImage = findViewById(R.id.art_image) as ImageView
-        artImage.setClickable(true)
-        artImage.setOnTouchListener(object: View.OnTouchListener {
+        art_image.setClickable(true)
+        art_image.setOnTouchListener(object: View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 return clickDetector.onTouchEvent(event)
             }
         })
-
-        artImageBlurry = findViewById(R.id.art_image_blurry) as ImageView
 
         decoreView = window.decorView
-
-        toolbar = findViewById(R.id.toolbar) as Toolbar
-        toolbarTitle = findViewById(R.id.toolbar_title) as TextView
-
-        collectingInstView = findViewById(R.id.collecting_institution) as TextView
     }
 
     private fun showSystemUI() {
@@ -190,21 +185,34 @@ class MainActivity : BaseActivity(),
         )
 
         val fadeIn: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
-        artInfoContainer.startAnimation(fadeIn)
-        artInfoContainer.visibility = View.VISIBLE;
+        art_info_container.startAnimation(fadeIn)
+        art_info_container.visibility = View.VISIBLE;
 
         blurred = true
     }
 
+    override fun displayArtistInfo(info: List<ArtsyArtist>?) {
+        artist_names_container.removeAllViews()
+
+        if (info == null) {
+            artist_names_container.visibility = View.GONE
+            return;
+        }
+
+        for (artist: ArtsyArtist in info) {
+            var artistView: ArtistInfoView = ArtistInfoView(this)
+            artistView.displayArtist(artist)
+            artist_names_container.addView(artistView)
+        }
+    }
+
     override fun displayArtworkInfo(info: ArtsyArtwork) {
-
-        toolbarTitle.text = info.title
-        collectingInstView.text = info.collecting_institution
-
+        toolbar_title.text = info.title
+        collecting_institution.text = info.collecting_institution
     }
 
     override fun displayImage(url: String?) {
-        artImage.loadUrl(url, object: RequestListener<Drawable> {
+        art_image.loadUrl(url, object: RequestListener<Drawable> {
             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                 if (resource != null) {
                     Handler().postDelayed( {
@@ -212,8 +220,8 @@ class MainActivity : BaseActivity(),
                             .radius(10)
                             .sampling(8)
                             .color(Color.argb(66,255,255,255))
-                            .capture(artImage)
-                            .into(artImageBlurry) }, 500)
+                            .capture(art_image)
+                            .into(art_image_blurry) }, 500)
                 }
                 return false;
             }
