@@ -14,7 +14,7 @@
 
 #!/usr/bin/env bash
 
-function copyEnvVarsToSecureStringsProperties {
+#function copyEnvVarsToSecureStringsProperties {
     SECURESTRINGS_PROPERTIES=$HOME"/app/securestrings.properties"
     export SECURESTRINGS_PROPERTIES
     echo "Securestrings Properties should exist at $SECURESTRINGS_PROPERTIES"
@@ -30,4 +30,4 @@ function copyEnvVarsToSecureStringsProperties {
         echo "DRIBBLE_CLIENT_ID=$DRIBBLE_CLIENT_ID" >> $SECURESTRINGS_PROPERTIES
         echo "DRIBBLE_CLIENT_SECRET=$DRIBBLE_CLIENT_SECRET" >> $SECURESTRINGS_PROPERTIES
     fi
-}
+#}
