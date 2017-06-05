@@ -22,13 +22,10 @@ data class ArtsyArtwork(
     fun getImgUrlLargestAvailable(): String? {
 
         val templated: Boolean = links.image?.templated ?: false
-        var imgLink: String? = links.image?.href
-        if (imgLink == null) {
-            return null
-        }
+        var imgLink: String? = links.image?.href ?: return null
 
         if (templated && image_versions != null && image_versions.isNotEmpty()) {
-            imgLink = imgLink.replace("{image_version}", image_versions[0])
+            imgLink = imgLink?.replace("{image_version}", image_versions[0])
         }
 
         return imgLink

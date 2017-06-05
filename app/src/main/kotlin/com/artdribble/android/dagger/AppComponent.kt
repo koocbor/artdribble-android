@@ -17,6 +17,4 @@ import javax.inject.Singleton
         GsonModule::class,
         PresenterModule::class
 ))
-interface AppComponent : ArtDribbleComponent {
-
-}
+interface AppComponent : ArtDribbleComponent

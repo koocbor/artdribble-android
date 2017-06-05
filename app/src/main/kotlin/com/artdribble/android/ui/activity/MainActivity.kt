@@ -1,13 +1,11 @@
 package com.artdribble.android.ui.activity
 
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.GestureDetector
 import android.view.Menu
@@ -15,10 +13,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.artdribble.android.ArtDribbleApp
 
 import com.artdribble.android.R
@@ -100,12 +94,6 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun bindArtistInfo(info: ArtsyArtistInfo?) {
-        if (info?.embedded?.artists == null || info.embedded.artists.isEmpty()) {
-            return;
-        }
-    }
-
     private fun delayedHide(delayMillis: Long) {
         hideSystemUiHandler.removeMessages(0)
         hideSystemUiHandler.sendEmptyMessageDelayed(0, delayMillis)
@@ -113,14 +101,12 @@ class MainActivity : BaseActivity(),
 
     private fun hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            decoreView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            decoreView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     xor View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     xor View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     xor View.SYSTEM_UI_FLAG_FULLSCREEN
-                    xor View.SYSTEM_UI_FLAG_IMMERSIVE
-            )
+                    xor View.SYSTEM_UI_FLAG_IMMERSIVE)
         }
 
         if (blurred) {
@@ -161,40 +147,30 @@ class MainActivity : BaseActivity(),
                 } else {
                     showSystemUI()
                 }
-                return true;
+                return true
             }
         }) {}
     }
 
     private fun initViews() {
 
-        art_info_container.setClickable(true)
-        art_info_container.setOnTouchListener(object: View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                return clickDetector.onTouchEvent(event)
-            }
-        })
+        art_info_container.isClickable = true
+        art_info_container.setOnTouchListener { v, event -> clickDetector.onTouchEvent(event) }
 
-        art_image.setClickable(true)
-        art_image.setOnTouchListener(object: View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                return clickDetector.onTouchEvent(event)
-            }
-        })
+        art_image.isClickable = true
+        art_image.setOnTouchListener { v, event -> clickDetector.onTouchEvent(event) }
 
         decoreView = window.decorView
     }
 
     private fun showSystemUI() {
-        decoreView.setSystemUiVisibility(
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            xor View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        )
+        decoreView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                xor View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
         val fadeIn: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         art_info_container.startAnimation(fadeIn)
-        art_info_container.visibility = View.VISIBLE;
+        art_info_container.visibility = View.VISIBLE
 
         blurred = true
     }
@@ -204,7 +180,7 @@ class MainActivity : BaseActivity(),
 
         if (info == null) {
             artist_names_container.visibility = View.GONE
-            return;
+            return
         }
 
         for (artist: ArtsyArtist in info) {
@@ -233,12 +209,12 @@ class MainActivity : BaseActivity(),
                             .capture(art_image)
                             .into(art_image_blurry) }, 500)
                 }
-                return false;
+                return false
             }
 
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                 Log.e("DRIBBLE", "Error", e)
-                return false;
+                return false
             }
         })
     }

@@ -34,7 +34,7 @@ class DribbleApi(
         okHttpClientBuilder.addInterceptor(RequestHeadersInterceptor(clientId, clientSecret))
 
         if (BuildConfig.DEBUG) {
-            val httpLoggingInterceptor : HttpLoggingInterceptor = HttpLoggingInterceptor();
+            val httpLoggingInterceptor : HttpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
         }

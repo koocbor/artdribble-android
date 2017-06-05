@@ -36,7 +36,7 @@ class ArtistInfoView : LinearLayout {
     }
 
     fun displayArtist(artist: ArtsyArtist) {
-        this.artist = artist;
+        this.artist = artist
 
         artist_name.text = artist.name
         if (artist.getBirthdateAndHometown() != null) {
@@ -47,7 +47,7 @@ class ArtistInfoView : LinearLayout {
         }
 
         if (artist.nationality != null) {
-            artist_nationality.text = artist.nationality;
+            artist_nationality.text = artist.nationality
             artist_nationality.visibility = View.VISIBLE
         } else {
             artist_nationality.visibility = View.GONE

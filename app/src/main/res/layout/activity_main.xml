@@ -9,7 +9,8 @@
     <ImageView
         android:id="@+id/art_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <FrameLayout
         android:id="@+id/art_info_container"
@@ -34,7 +35,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorToolbarBg"
                 app:theme="@style/ArtDribble_Toolbar"
                 app:popupTheme="@style/ArtDribble_ActionBarWidget">
 

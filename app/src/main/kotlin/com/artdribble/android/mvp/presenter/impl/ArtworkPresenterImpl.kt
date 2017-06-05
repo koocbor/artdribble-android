@@ -39,7 +39,7 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
         var localDribble: Dribble? = datastore.getDribble()
 
-        if (localDribble != null && localDribble.dribbledate.equals(key)) {
+        if (localDribble != null && localDribble.dribbledate == key) {
             dribble = localDribble
             displayArtwork()
             return
@@ -49,7 +49,7 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
             override fun onResponse(call: Call<Dribble>?, response: Response<Dribble>?) {
 
-                if (response != null && response.isSuccessful()) {
+                if (response != null && response.isSuccessful) {
                     dribble = response.body()
                     datastore.setDribble(dribble)
                     displayArtwork()
@@ -68,7 +68,7 @@ class ArtworkPresenterImpl : ArtworkPresenter {
 
     private fun displayArtwork() {
         if (weakView?.get() == null || dribble?.artsyArtworkInfo == null) {
-            return;
+            return
         }
 
         weakView?.get()?.displayArtworkInfo(dribble?.artsyArtworkInfo as ArtsyArtwork)
