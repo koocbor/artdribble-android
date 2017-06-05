@@ -13,6 +13,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.kt3k.coveralls'
 
 apply from: "$rootDir/utils.gradle"
+apply from: "$rootDir/codeQuality.gradle"
 
 def Properties secureStrings = new Properties()
 def secureStringsFile = file('securestrings.properties')
