@@ -94,6 +94,7 @@ class ArtsyArtistTest {
         assertEquals(links.artists?.href, artist.links?.artists?.href)
         assertEquals(links.genes?.href, artist.links?.genes?.href)
         assertEquals(links.image?.href, artist.links?.image?.href)
+        assertEquals(links.image?.templated, artist.links?.image?.templated)
         assertEquals(links.partner?.href, artist.links?.partner?.href)
         assertEquals(links.permalink?.href, artist.links?.permalink?.href)
         assertEquals(links.published_artworks?.href, artist.links?.published_artworks?.href)

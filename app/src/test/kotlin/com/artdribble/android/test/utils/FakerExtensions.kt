@@ -1,9 +1,8 @@
 package com.artdribble.android.test.utils
 
-import com.artdribble.android.models.ArtsyArtist
-import com.artdribble.android.models.ArtsyLink
-import com.artdribble.android.models.ArtsyLinkCollection
+import com.artdribble.android.models.*
 import com.github.javafaker.Faker
+import org.apache.tools.ant.taskdefs.Local
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -33,6 +32,34 @@ fun Faker.newArtist(): ArtsyArtist {
     )
 
     return artist
+}
+
+fun Faker.newArtsyArtistInfo() : ArtsyArtistInfo {
+    val embedded: ArtsyArtistInfo.ArtsyArtistEmbedded = ArtsyArtistInfo.ArtsyArtistEmbedded(
+            mutableListOf<ArtsyArtist>(newArtist())
+    )
+    return ArtsyArtistInfo(
+            embedded,
+            newArtsyLinkCollection()
+    )
+}
+
+fun Faker.newArtsyArtwork() : ArtsyArtwork {
+
+    val sdf: SimpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.US)
+
+    return ArtsyArtwork(
+            this.idNumber().valid(),
+            this.gameOfThrones().dragon(),
+            Date(),
+            sdf.format(Date()),
+            mutableListOf<String>("large", "medium", "small"),
+            newArtsyLinkCollection(),
+            this.stock().nyseSymbol(),
+            null,
+            this.lorem().characters(10, 25),
+            this.ancient().titan()
+    )
 }
 
 fun Faker.newArtsyLink(isTemplated: Boolean?): ArtsyLink {
