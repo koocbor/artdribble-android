@@ -29,7 +29,7 @@ dependencies:
 
 test:
   override:
-    - sh ./.build-helpers/lint.sh
-    - sh ./.build-helpers/coverage.sh
+    - ./.build-helpers/lint.sh
+    - ./.build-helpers/coverage.sh
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     - cp -r app/build/test-results/* $CIRCLE_TEST_REPORTS
