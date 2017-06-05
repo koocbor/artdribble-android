@@ -14,20 +14,18 @@
 
 #!/usr/bin/env bash
 
-#function copyEnvVarsToSecureStringsProperties {
-    SECURESTRINGS_PROPERTIES=$HOME"/app/securestrings.properties"
-    export SECURESTRINGS_PROPERTIES
-    echo "Securestrings Properties should exist at $SECURESTRINGS_PROPERTIES"
+SECURESTRINGS_PROPERTIES=$HOME"/artdribble-android/app/securestrings.properties"
+export SECURESTRINGS_PROPERTIES
+echo "Securestrings Properties should exist at $SECURESTRINGS_PROPERTIES"
 
-    if [ ! -f "$SECURESTRINGS_PROPERTIES" ]; then
-        echo "Securestrings Properties does not exist"
+if [ ! -f "$SECURESTRINGS_PROPERTIES" ]; then
+    echo "Securestrings Properties does not exist"
 
-        echo "Creating Securestrings Properties file..."
-        touch $SECURESTRINGS_PROPERTIES
+    echo "Creating Securestrings Properties file..."
+    touch $SECURESTRINGS_PROPERTIES
 
-        echo "Writing properties to securestrings.properties"
-        echo "DRIBBLE_API_HOST=$DRIBBLE_API_HOST" >> $SECURESTRINGS_PROPERTIES
-        echo "DRIBBLE_CLIENT_ID=$DRIBBLE_CLIENT_ID" >> $SECURESTRINGS_PROPERTIES
-        echo "DRIBBLE_CLIENT_SECRET=$DRIBBLE_CLIENT_SECRET" >> $SECURESTRINGS_PROPERTIES
-    fi
-#}
+    echo "Writing properties to securestrings.properties"
+    echo "DRIBBLE_API_HOST=$DRIBBLE_API_HOST" >> $SECURESTRINGS_PROPERTIES
+    echo "DRIBBLE_CLIENT_ID=$DRIBBLE_CLIENT_ID" >> $SECURESTRINGS_PROPERTIES
+    echo "DRIBBLE_CLIENT_SECRET=$DRIBBLE_CLIENT_SECRET" >> $SECURESTRINGS_PROPERTIES
+fi
