@@ -79,6 +79,7 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${androidSupportVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:design:${androidSupportVersion}"
 
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'

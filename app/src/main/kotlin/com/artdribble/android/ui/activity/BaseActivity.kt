@@ -19,4 +19,9 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ArtDribbleApp.appComponent.inject(this)
     }
+
+    inline fun consumeMenuItem(f: () -> Unit): Boolean {
+        f()
+        return true
+    }
 }

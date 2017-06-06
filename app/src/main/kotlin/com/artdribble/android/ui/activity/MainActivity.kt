@@ -1,5 +1,6 @@
 package com.artdribble.android.ui.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -7,10 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
-import android.view.GestureDetector
-import android.view.Menu
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.artdribble.android.ArtDribbleApp
@@ -79,6 +77,11 @@ class MainActivity : BaseActivity(),
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.menu_settings -> consumeMenuItem { gotoSettings() }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onResume() {
         super.onResume()
         presenter.loadDailyArtwork()
@@ -97,6 +100,11 @@ class MainActivity : BaseActivity(),
     private fun delayedHide(delayMillis: Long) {
         hideSystemUiHandler.removeMessages(0)
         hideSystemUiHandler.sendEmptyMessageDelayed(0, delayMillis)
+    }
+
+    private fun gotoSettings() {
+        var intent: Intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun hideSystemUI() {
