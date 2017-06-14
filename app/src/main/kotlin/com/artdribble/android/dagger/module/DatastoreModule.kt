@@ -1,7 +1,6 @@
 package com.artdribble.android.dagger.module
 
 import android.app.Application
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.artdribble.android.Datastore
 import com.google.gson.Gson

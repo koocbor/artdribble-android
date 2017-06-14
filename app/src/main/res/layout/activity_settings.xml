@@ -62,6 +62,7 @@
                     android:textSize="@dimen/font_med"/>
 
                 <CheckBox
+                    android:id="@+id/settings_do_notify_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|right|end"/>
@@ -74,6 +75,7 @@
                 android:text="@string/settings_daily_notice_msg"/>
 
             <TextView
+                android:id="@+id/settings_notify_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_one_half"

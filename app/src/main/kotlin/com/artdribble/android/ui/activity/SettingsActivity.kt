@@ -15,6 +15,7 @@ class SettingsActivity : BaseActivity() {
         setContentView(R.layout.activity_settings)
 
         initActionBar()
+        initSettings()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId) {
@@ -29,5 +30,13 @@ class SettingsActivity : BaseActivity() {
             supportActionBar?.setDisplayShowHomeEnabled(true)
             supportActionBar?.setDisplayShowTitleEnabled(false)
         }
+    }
+
+    private fun initSettings() {
+        var doNotify: Boolean = datastore.getDoNotification()
+        var notifyTime: String = datastore.getNotificationTime()
+
+        settings_do_notify_cb.isChecked = doNotify
+        settings_notify_time.text = notifyTime
     }
 }

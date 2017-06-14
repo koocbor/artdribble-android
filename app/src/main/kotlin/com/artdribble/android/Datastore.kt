@@ -11,7 +11,11 @@ import com.google.gson.Gson
 class Datastore(val sharedPrefs: SharedPreferences,
                 val gson: Gson) {
 
+    private val DEFAULT_NOTIFY_TIME: String = "8:00 AM"
+
     private val DAILY_DRIBBLE: String = "Daily:Dribble"
+    private val DO_NOTIFICATION: String = "Do:Notification"
+    private val NOTIFICATION_TIME: String = "Notification:Time"
 
     private fun getEditor() : SharedPreferences.Editor = sharedPrefs.edit()
 
@@ -33,5 +37,21 @@ class Datastore(val sharedPrefs: SharedPreferences,
         }
 
         getEditor().putString(DAILY_DRIBBLE, gson.toJson(dribble)).apply()
+    }
+
+    fun getDoNotification() : Boolean {
+        return getPrefs().getBoolean(DO_NOTIFICATION, true)
+    }
+
+    fun setDoNotification(notify: Boolean) {
+        getEditor().putBoolean(DO_NOTIFICATION, notify).apply()
+    }
+
+    fun getNotificationTime() : String {
+        return getPrefs().getString(NOTIFICATION_TIME, DEFAULT_NOTIFY_TIME)
+    }
+
+    fun setNotificationTime(timeStr: String) {
+        getEditor().putString(NOTIFICATION_TIME, timeStr).apply()
     }
 }
