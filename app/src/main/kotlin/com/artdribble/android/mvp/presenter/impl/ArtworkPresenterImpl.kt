@@ -1,5 +1,6 @@
 package com.artdribble.android.mvp.presenter.impl
 
+import com.artdribble.android.ArtDribbleApp
 import com.artdribble.android.Datastore
 import com.artdribble.android.api.DribbleApi
 import com.artdribble.android.models.ArtsyArtwork
@@ -19,9 +20,7 @@ import javax.inject.Inject
  */
 class ArtworkPresenterImpl : ArtworkPresenter {
 
-    val DATE_KEY_FORMAT = "yyyyMMdd"
-
-    val simpleDateFormat: SimpleDateFormat = SimpleDateFormat(DATE_KEY_FORMAT, Locale.US)
+    val simpleDateFormat: SimpleDateFormat = SimpleDateFormat(ArtDribbleApp.FORMAT_DAILY_ARTWORK_KEY, Locale.US)
     val datastore: Datastore
     val dribbleApi: DribbleApi
     var dribble: Dribble? = null

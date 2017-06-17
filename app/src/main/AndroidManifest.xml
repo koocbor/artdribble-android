@@ -3,6 +3,7 @@
     package="com.artdribble.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".ArtDribbleApp"
@@ -20,7 +21,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.SettingsActivity"></activity>
+        <activity android:name=".ui.activity.SettingsActivity"/>
+
+        <service android:name=".services.ArtDribbleFirebaseGetDailyDribbleService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".services.ArtDribbleJobSchedulerGetDailyDribbleService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
     </application>
 
 </manifest>
