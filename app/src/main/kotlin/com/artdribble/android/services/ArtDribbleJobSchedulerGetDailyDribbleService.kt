@@ -50,9 +50,7 @@ class ArtDribbleJobSchedulerGetDailyDribbleService : JobService() {
     }
 
     private fun loadDailyArtwork() {
-        val simpleDateFormat: SimpleDateFormat = SimpleDateFormat(ArtDribbleApp.FORMAT_DAILY_ARTWORK_KEY, Locale.US)
-        val now: Date = Date()
-        val key: String = simpleDateFormat.format(now)
+        val key: String = Dribble.getTodayKey()
 
         val localDribble: Dribble? = datastore.getDribble()
 

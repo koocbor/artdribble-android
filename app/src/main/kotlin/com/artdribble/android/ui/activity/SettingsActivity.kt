@@ -1,12 +1,14 @@
 package com.artdribble.android.ui.activity
 
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.widget.TimePicker
 import com.artdribble.android.ArtDribbleApp
 import com.artdribble.android.R
+import com.artdribble.android.services.ArtDribbleNotificationService
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,7 +18,7 @@ import java.util.*
  */
 class SettingsActivity : BaseActivity() {
 
-    val FORMAT_HOUR_MINUTE_AMPM = "h:mm a"
+    var artDribbleApp: ArtDribbleApp? = null
 
     var doNotify: Boolean = true
     var notifyTime: String = ArtDribbleApp.DEFAULT_NOTIFY_TIME
@@ -24,17 +26,24 @@ class SettingsActivity : BaseActivity() {
     var colorActive: Int = 0
     var colorInactive: Int = 0
 
-    var sdf: SimpleDateFormat = SimpleDateFormat(FORMAT_HOUR_MINUTE_AMPM, Locale.US)
+    var sdf: SimpleDateFormat = SimpleDateFormat(ArtDribbleApp.FORMAT_HOUR_MINUTE_AMPM, Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        artDribbleApp = application as? ArtDribbleApp
 
         colorActive = ContextCompat.getColor(this, R.color.colorBrown)
         colorInactive = ContextCompat.getColor(this, R.color.colorBrownInactive)
 
         initActionBar()
         initSettings()
+
+        test_button.setOnClickListener({
+            val intent: Intent = Intent(this@SettingsActivity, ArtDribbleNotificationService::class.java)
+            startService(intent)
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId) {
@@ -96,6 +105,8 @@ class SettingsActivity : BaseActivity() {
             notifyTime = sdf.format(cal.time)
             settings_notify_time.text = notifyTime
             datastore.setNotificationTime(notifyTime)
+
+            artDribbleApp?.scheduleNotification()
         }, hourOfDay, minute, false)
                 .show()
     }
@@ -104,5 +115,7 @@ class SettingsActivity : BaseActivity() {
         doNotify = settings_do_notify_cb.isChecked
         datastore.setDoNotification(doNotify)
         bindNotifySettings()
+
+        artDribbleApp?.scheduleNotification()
     }
 }
