@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="ArtDribble_Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorBrown</item>
+    </style>
+
     <style name="ArtDribble_Dialog_Fullscreen" parent="Theme.ArtDribble.Base"/>
 
     <style name="ArtDribble_Dialog_Fullscreen_SlideUp" parent="ArtDribble_Dialog_Fullscreen">

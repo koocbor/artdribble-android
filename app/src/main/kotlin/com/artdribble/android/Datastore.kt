@@ -2,6 +2,7 @@ package com.artdribble.android
 
 import android.content.SharedPreferences
 import android.text.TextUtils
+import com.artdribble.android.ArtDribbleApp.Companion.DEFAULT_NOTIFY_TIME
 import com.artdribble.android.models.Dribble
 import com.google.gson.Gson
 
@@ -11,7 +12,6 @@ import com.google.gson.Gson
 class Datastore(val sharedPrefs: SharedPreferences,
                 val gson: Gson) {
 
-    private val DEFAULT_NOTIFY_TIME: String = "8:00 AM"
 
     private val DAILY_DRIBBLE: String = "Daily:Dribble"
     private val DO_NOTIFICATION: String = "Do:Notification"
@@ -48,7 +48,7 @@ class Datastore(val sharedPrefs: SharedPreferences,
     }
 
     fun getNotificationTime() : String {
-        return getPrefs().getString(NOTIFICATION_TIME, DEFAULT_NOTIFY_TIME)
+        return getPrefs().getString(NOTIFICATION_TIME, ArtDribbleApp.DEFAULT_NOTIFY_TIME)
     }
 
     fun setNotificationTime(timeStr: String) {

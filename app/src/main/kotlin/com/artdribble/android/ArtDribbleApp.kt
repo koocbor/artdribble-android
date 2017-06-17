@@ -6,8 +6,6 @@ import com.artdribble.android.dagger.DaggerAppComponent
 import com.artdribble.android.dagger.module.ApiModule
 import com.artdribble.android.dagger.module.DatastoreModule
 import com.artdribble.android.dagger.module.GsonModule
-import javax.inject.Inject
-
 
 /**
  * Created by robcook on 5/29/17.
@@ -17,6 +15,7 @@ class ArtDribbleApp : Application () {
     companion object {
         @JvmStatic lateinit var instance: ArtDribbleApp
         @JvmStatic lateinit var appComponent: AppComponent
+        val DEFAULT_NOTIFY_TIME = "8:00 AM"
     }
 
     override fun onCreate() {
