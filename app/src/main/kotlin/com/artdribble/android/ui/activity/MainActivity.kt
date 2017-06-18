@@ -1,5 +1,7 @@
 package com.artdribble.android.ui.activity
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -62,6 +64,8 @@ class MainActivity : BaseActivity(),
 
         setContentView(R.layout.activity_main)
 
+        clearNotifications()
+
         initClickDetector()
         initViews()
         initActionBar()
@@ -101,6 +105,11 @@ class MainActivity : BaseActivity(),
         } else {
             hideSystemUiHandler.removeMessages(0)
         }
+    }
+
+    private fun clearNotifications() {
+        val notifyManager: NotificationManager? = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+        notifyManager?.cancel(ArtDribbleApp.NOTIFICATION_ID)
     }
 
     private fun delayedHide(delayMillis: Long) {

@@ -55,7 +55,7 @@ class ArtDribbleNotificationService : IntentService("ArtDribbleNotificationServi
                 .build()
 
         val notifyManager: NotificationManager? = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-        notifyManager?.notify(0, notifyCompat)
+        notifyManager?.notify(ArtDribbleApp.NOTIFICATION_ID, notifyCompat)
 
     }
 

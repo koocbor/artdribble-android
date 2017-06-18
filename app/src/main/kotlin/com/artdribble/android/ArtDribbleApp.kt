@@ -3,9 +3,9 @@ package com.artdribble.android
 import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.Application
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.job.JobInfo
-import android.app.job.JobInfo.NETWORK_TYPE_ANY
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
@@ -39,6 +39,7 @@ class ArtDribbleApp : Application () {
         val FORMAT_DAILY_ARTWORK_KEY = "yyyyMMdd"
         val FORMAT_HOUR_MINUTE_AMPM = "h:mm a"
         val JOB_ID = 1442
+        val NOTIFICATION_ID = 164
     }
 
     @Inject
@@ -128,14 +129,18 @@ class ArtDribbleApp : Application () {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun scheduleLollipopPlus(msToMidnight: Long) {
 
-        val jobInfo: JobInfo = JobInfo.Builder(JOB_ID, ComponentName(this, ArtDribbleJobSchedulerGetDailyDribbleService::class.java))
+        var jobInfoBuilder = JobInfo.Builder(JOB_ID, ComponentName(this, ArtDribbleJobSchedulerGetDailyDribbleService::class.java))
                 .setMinimumLatency(msToMidnight)
-                .setRequiredNetworkType(NETWORK_TYPE_ANY)
                 .setPersisted(true)
-                .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+        } else {
+            jobInfoBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+        }
 
         val jobScheduler: JobScheduler? = getSystemService(Context.JOB_SCHEDULER_SERVICE) as? JobScheduler
-        jobScheduler?.schedule(jobInfo)
+        jobScheduler?.schedule(jobInfoBuilder.build())
     }
 
     private fun schedulePreLollipop(msToMidnight: Long) {
