@@ -64,10 +64,8 @@ class SettingsActivity : BaseActivity() {
     private fun initActionBar() {
         setSupportActionBar(toolbar)
 
-        if (supportActionBar != null) {
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun initSettings() {

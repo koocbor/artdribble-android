@@ -1,6 +1,7 @@
 package com.artdribble.android.dagger
 
 import com.artdribble.android.ArtDribbleApp
+import com.artdribble.android.receivers.ArtDribbleBootReceiver
 import com.artdribble.android.services.ArtDribbleFirebaseGetDailyDribbleService
 import com.artdribble.android.services.ArtDribbleJobSchedulerGetDailyDribbleService
 import com.artdribble.android.services.ArtDribbleNotificationService

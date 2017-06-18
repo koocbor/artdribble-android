@@ -10,12 +10,14 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import com.artdribble.android.dagger.AppComponent
 import com.artdribble.android.dagger.DaggerAppComponent
 import com.artdribble.android.dagger.module.ApiModule
 import com.artdribble.android.dagger.module.DatastoreModule
 import com.artdribble.android.dagger.module.GsonModule
+import com.artdribble.android.receivers.ArtDribbleBootReceiver
 import com.artdribble.android.services.ArtDribbleFirebaseGetDailyDribbleService
 import com.artdribble.android.services.ArtDribbleJobSchedulerGetDailyDribbleService
 import com.artdribble.android.services.ArtDribbleNotificationService
@@ -106,8 +108,20 @@ class ArtDribbleApp : Application () {
         // If an alarm exists for this pendingIntent - cancel it
         alarmManager.cancel(alarmIntent)
 
+        val receiver: ComponentName = ComponentName(this, ArtDribbleBootReceiver::class.java)
+        val pm: PackageManager = getPackageManager()
         if (datastore.getDoNotification()) {
             alarmManager.setInexactRepeating(AlarmManager.RTC, cal.timeInMillis, repeatFrequency, alarmIntent)
+
+            // enable boot receiver in case user reboots device so alarm manager can be re-created
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP)
+        } else {
+            // disable boot receiver in case user reboots device so alarm manager can be re-created
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP)
         }
     }
 

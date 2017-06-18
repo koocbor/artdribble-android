@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 import kotlinx.android.synthetic.main.activity_main.view.*
+import java.lang.ref.WeakReference
 
 class MainActivity : BaseActivity(),
         ArtworkView {
@@ -40,11 +41,13 @@ class MainActivity : BaseActivity(),
 
     var blurred: Boolean = false
 
-    val hideSystemUiHandler: Handler = object: Handler() {
-        override fun handleMessage(msg: Message?) {
-            hideSystemUI()
-        }
-    }
+//    val hideSystemUiHandler: Handler = object: Handler() {
+//        override fun handleMessage(msg: Message?) {
+//            hideSystemUI()
+//        }
+//    }
+
+    lateinit var hideSystemUiHandler: UiHandler
 
     lateinit var clickDetector: GestureDetector
 
@@ -54,6 +57,8 @@ class MainActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ArtDribbleApp.appComponent.inject(this)
+
+        hideSystemUiHandler = UiHandler(this)
 
         setContentView(R.layout.activity_main)
 
@@ -78,6 +83,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.menu_about -> consumeMenuItem { gotoAbout() }
         R.id.menu_settings -> consumeMenuItem { gotoSettings() }
         else -> super.onOptionsItemSelected(item)
     }
@@ -102,8 +108,13 @@ class MainActivity : BaseActivity(),
         hideSystemUiHandler.sendEmptyMessageDelayed(0, delayMillis)
     }
 
+    private fun gotoAbout() {
+        val intent: Intent = Intent(this, AboutActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun gotoSettings() {
-        var intent: Intent = Intent(this, SettingsActivity::class.java)
+        val intent: Intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 
@@ -192,7 +203,7 @@ class MainActivity : BaseActivity(),
         }
 
         for (artist: ArtsyArtist in info) {
-            var artistView: ArtistInfoView = ArtistInfoView(this)
+            val artistView: ArtistInfoView = ArtistInfoView(this)
             artistView.displayArtist(artist)
             artist_names_container.addView(artistView)
         }
@@ -231,4 +242,13 @@ class MainActivity : BaseActivity(),
 
     }
     // endregion
+
+    class UiHandler(mainActivity: MainActivity) : Handler() {
+
+        private var weakMainActivity: WeakReference<MainActivity>? = WeakReference(mainActivity)
+
+        override fun handleMessage(msg: Message?) {
+            weakMainActivity?.get()?.hideSystemUI()
+        }
+    }
 }

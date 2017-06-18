@@ -13,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ArtDribble">
+
+        <activity android:name=".ui.activity.AboutActivity"/>
+
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +25,13 @@
         </activity>
 
         <activity android:name=".ui.activity.SettingsActivity"/>
+
+        <receiver android:name=".receivers.ArtDribbleBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <service android:name=".services.ArtDribbleFirebaseGetDailyDribbleService"
             android:exported="false">

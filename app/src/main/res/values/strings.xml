@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="about_version">Version:</string>
+
     <string name="accessibility_overflow">Overflow Menu</string>
 
     <string name="app_name">Art Dribble</string>
