@@ -1,14 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.2-5'
+    ext.kotlin_version = '1.2.31'
     repositories {
         jcenter()
         maven { url "https://maven.google.com" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
 
@@ -23,11 +24,20 @@ plugins {
 }
 
 allprojects {
+    ext {
+        androidSupportVersion = '27.1.0'
+        glideVersion = '4.2.0'
+        koinVersion = '0.9.1'
+        okhttpVersion = '3.10.0'
+        retrofit2Version = '2.3.0'
+    }
+
     repositories {
         jcenter()
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
+        google()
     }
 
     jacoco {

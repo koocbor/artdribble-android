@@ -1,6 +1,6 @@
 package com.artdribble.android.models
 
-import com.artdribble.android.ArtDribbleApp
+import com.artdribble.android.app.ArtDribbleApp
 import java.text.SimpleDateFormat
 import java.util.*
 

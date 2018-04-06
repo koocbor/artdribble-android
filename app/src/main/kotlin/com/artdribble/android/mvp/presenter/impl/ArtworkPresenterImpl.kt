@@ -1,78 +1,70 @@
 package com.artdribble.android.mvp.presenter.impl
 
-import com.artdribble.android.ArtDribbleApp
-import com.artdribble.android.Datastore
-import com.artdribble.android.api.DribbleApi
+import com.artdribble.android.app.ArtDribbleApp
+import com.artdribble.android.app.Datastore
+import com.artdribble.android.api.DribbleApiRepository
 import com.artdribble.android.models.ArtsyArtwork
 import com.artdribble.android.models.Dribble
 import com.artdribble.android.mvp.presenter.ArtworkPresenter
 import com.artdribble.android.mvp.view.ArtworkView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.artdribble.android.utils.get
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
 import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by robcook on 5/29/17.
  */
-class ArtworkPresenterImpl : ArtworkPresenter {
+class ArtworkPresenterImpl(val dribbleRepository: DribbleApiRepository,
+                           val datastore: Datastore) : BasePresenterImpl(), ArtworkPresenter {
 
     val simpleDateFormat: SimpleDateFormat = SimpleDateFormat(ArtDribbleApp.FORMAT_DAILY_ARTWORK_KEY, Locale.US)
-    val datastore: Datastore
-    val dribbleApi: DribbleApi
-    var dribble: Dribble? = null
     var weakView: WeakReference<ArtworkView>? = null
 
-    @Inject
-    constructor(dribbleApi: DribbleApi, datastore: Datastore) {
-        this.dribbleApi = dribbleApi
-        this.datastore = datastore
-    }
-
-    override fun loadDailyArtwork() {
-        var now: Date = Date()
-        var key: String = simpleDateFormat.format(now)
-
-        var localDribble: Dribble? = datastore.getDribble()
-
-        if (localDribble != null && localDribble.dribbledate == key) {
-            dribble = localDribble
-            displayArtwork()
-            return
-        }
-
-        dribbleApi.getArtwork(key).enqueue(object : Callback<Dribble> {
-
-            override fun onResponse(call: Call<Dribble>?, response: Response<Dribble>?) {
-
-                if (response != null && response.isSuccessful) {
-                    dribble = response.body()
-                    datastore.setDribble(dribble)
-                    displayArtwork()
-                }
-            }
-
-            override fun onFailure(call: Call<Dribble>?, t: Throwable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
+    override fun onResume() {
+        super.onResume()
+        loadDailyArtwork()
     }
 
     override fun setView(view: ArtworkView) {
         weakView = WeakReference(view)
     }
 
-    private fun displayArtwork() {
+    private fun displayArtwork(dribble: Dribble?) {
         if (weakView?.get() == null || dribble?.artsyArtworkInfo == null) {
             return
         }
 
-        weakView?.get()?.displayArtworkInfo(dribble?.artsyArtworkInfo as ArtsyArtwork)
-        weakView?.get()?.displayImage(dribble?.artsyArtworkInfo?.getImgUrlLargestAvailable())
-        weakView?.get()?.displayArtistInfo(dribble?.artsyArtistInfo?.embedded?.artists)
+        weakView?.get()?.displayArtworkInfo(dribble.artsyArtworkInfo as ArtsyArtwork)
+        weakView?.get()?.displayImage(dribble.artsyArtworkInfo.getImgUrlLargestAvailable())
+        weakView?.get()?.displayArtistInfo(dribble.artsyArtistInfo?.embedded?.artists)
     }
 
+    private fun loadDailyArtwork() {
+        val now = Date()
+        val key: String = simpleDateFormat.format(now)
+
+        val localDribble: Dribble? = datastore.getDribble()
+
+        if (key == localDribble?.dribbledate) {
+            displayArtwork(localDribble)
+            return
+        }
+
+        getArtworkFromApi(key)
+    }
+
+    // region API
+    private fun getArtworkFromApi(key: String) {
+        disposables.get() += dribbleRepository.getArtwork(key)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                        onSuccess = this::displayArtwork,
+                        onError = { throwable -> onApiError(throwable, weakView?.get(), true) }
+                )
+    }
+    // endregion
 }

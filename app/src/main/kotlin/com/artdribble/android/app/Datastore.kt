@@ -1,8 +1,7 @@
-package com.artdribble.android
+package com.artdribble.android.app
 
 import android.content.SharedPreferences
 import android.text.TextUtils
-import com.artdribble.android.ArtDribbleApp.Companion.DEFAULT_NOTIFY_TIME
 import com.artdribble.android.models.Dribble
 import com.google.gson.Gson
 
@@ -22,7 +21,7 @@ class Datastore(val sharedPrefs: SharedPreferences,
     private fun getPrefs() : SharedPreferences = sharedPrefs
 
     fun getDribble(): Dribble? {
-        var dribbleJson: String = getPrefs().getString(DAILY_DRIBBLE, "")
+        val dribbleJson: String = getPrefs().getString(DAILY_DRIBBLE, "")
         if (TextUtils.isEmpty(dribbleJson)) {
             return null
         }

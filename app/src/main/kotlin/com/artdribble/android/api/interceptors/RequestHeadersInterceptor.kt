@@ -1,4 +1,4 @@
-package com.artdribble.android.api
+package com.artdribble.android.api.interceptors
 
 import okhttp3.Credentials
 import okhttp3.Interceptor

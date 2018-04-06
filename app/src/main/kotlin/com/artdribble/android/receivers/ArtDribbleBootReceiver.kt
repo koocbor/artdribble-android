@@ -3,7 +3,7 @@ package com.artdribble.android.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.artdribble.android.ArtDribbleApp
+import com.artdribble.android.app.ArtDribbleApp
 
 /**
  * Created by robcook on 6/18/17.

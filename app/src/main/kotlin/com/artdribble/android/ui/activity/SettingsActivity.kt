@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.widget.TimePicker
-import com.artdribble.android.ArtDribbleApp
+import com.artdribble.android.app.ArtDribbleApp
 import com.artdribble.android.R
 import com.artdribble.android.services.ArtDribbleNotificationService
 import kotlinx.android.synthetic.main.activity_settings.*

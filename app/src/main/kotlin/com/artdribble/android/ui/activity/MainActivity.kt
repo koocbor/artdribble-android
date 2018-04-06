@@ -13,11 +13,10 @@ import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.artdribble.android.ArtDribbleApp
+import com.artdribble.android.app.ArtDribbleApp
 
 import com.artdribble.android.R
 import com.artdribble.android.models.ArtsyArtist
-import com.artdribble.android.models.ArtsyArtistInfo
 import com.artdribble.android.models.ArtsyArtwork
 import com.artdribble.android.mvp.presenter.ArtworkPresenter
 import com.artdribble.android.mvp.view.ArtworkView
@@ -29,9 +28,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-import kotlinx.android.synthetic.main.activity_main.view.*
 import java.lang.ref.WeakReference
 
 class MainActivity : BaseActivity(),
@@ -53,12 +51,11 @@ class MainActivity : BaseActivity(),
 
     lateinit var clickDetector: GestureDetector
 
-    @Inject
-    protected lateinit var presenter: ArtworkPresenter
+
+    protected val presenter: ArtworkPresenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ArtDribbleApp.appComponent.inject(this)
 
         hideSystemUiHandler = UiHandler(this)
 
@@ -71,6 +68,12 @@ class MainActivity : BaseActivity(),
         initActionBar()
 
         presenter.setView(this)
+        presenter.onViewCreated()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -94,7 +97,12 @@ class MainActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-        presenter.loadDailyArtwork()
+        presenter.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -245,6 +253,10 @@ class MainActivity : BaseActivity(),
                 return false
             }
         })
+    }
+
+    override fun getBaseActivity(): BaseActivity? {
+        return this
     }
 
     override fun toggleProgress(show: Boolean) {
